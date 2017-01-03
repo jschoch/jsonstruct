@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
-  "title": "Test",
-  "description": "test schema for jsonstruct.",
+  "title": "TestRef",
+  "description": "test ref schema for jsonstruct.",
   "properties": {
     "test": {
       "$ref": "test/schema/test.json"
