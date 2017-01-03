@@ -2,7 +2,9 @@
 
 **description
 
+## this is not working yet....
 
+first add the archive, not done yet though...
 
 run `mix jsst` and this will create struct definitions in ./lib/structs
 
