@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title": "Test",
+  "description": "test schema for jsonstruct.",
+  "properties": {
+    "test": {
+      "$ref": "test/schema/test.json"
+    },
+    "type": {
+      "type": "string",
+      "title": "Type schema.",
+      "description": "type",
+      "default": "person"
+    }
+  },
+  "required": [
+    "test",
+    "type"
+  ]
+}

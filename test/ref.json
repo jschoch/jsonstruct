@@ -1,0 +1,10 @@
+{
+  "test": {
+    "name": "joe",
+    "type": "person",
+    "props": [
+      4,5,6
+    ]
+  },
+  "type": "ref"
+}

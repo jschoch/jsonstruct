@@ -46,6 +46,8 @@ defmodule Jsonstruct do
           "object" ->
             props = props[key]["properties"]
             "#{key}: %{#{walk(props)}}"
+          "$ref" ->
+            raise "ref not done yet" 
           horror -> raise "unknown prop type"
         end
       end) 
