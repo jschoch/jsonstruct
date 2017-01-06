@@ -2,11 +2,19 @@
 
 **description
 
-## this is not working yet....
+## this is barely working, contributors welcome....
 
-first add the archive, not done yet though...
+install in your mix.exs and do the old mix deps.get
+create a dir `./schema`
+add some json schema and ensure there are no pattern properties
+ensure the root title matches the module name you expect for your structs
+run `mix jsst` and this will create struct definitions in `./lib/#{module_name}_jsst_struct`
+if you don't like usine `./schema` pass the schema dir as an arg to the mix task
+`mix jsst my_fancy_schema_dir`
 
-run `mix jsst` and this will create struct definitions in ./lib/structs
+### TODO
+ 
+  test with hex and or archive install
 
 ## Installation
 

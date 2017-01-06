@@ -18,7 +18,7 @@ defmodule Jsonstruct.Mixfile do
     [applications: [:logger,:exconstructor]]
   end
 
-  defp version, do: "0.0.2"
+  defp version, do: "0.0.3"
 
   defp app, do: :jsonstruct
 
