@@ -42,6 +42,12 @@ defmodule JsonstructTest do
     assert valid? == :ok
     assert ExJsonSchema.Validator.valid?(ref_schema, test_map)
   end
+  test "nested objects have correct format.  commas missing" do
+    assert false, "TODO next"
+  end
+  test "should raise on lack of defaults in schema" do
+    assert false, "not done yet"
+  end
   test "fails on bad module name" do
     assert false, "not done yet" 
   end
