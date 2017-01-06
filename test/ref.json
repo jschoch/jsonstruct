@@ -6,5 +6,7 @@
       4,5,6
     ]
   },
-  "type": "ref"
+  "type": "ref",
+  "bool":true,
+  "int":0
 }

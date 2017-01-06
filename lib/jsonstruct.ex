@@ -62,6 +62,8 @@ defmodule Jsonstruct do
                 "#{key}: %{#{walk(props)}}"
               "integer" ->
                 "#{key}: #{props[key]["default"]}"
+              "boolean" ->
+                "#{key}: #{props[key]["default"]}"
               horror -> raise "unknown prop type: #{}" <> inspect horror, pretty: true
             end
         end

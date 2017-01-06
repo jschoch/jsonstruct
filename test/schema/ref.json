@@ -12,10 +12,24 @@
       "title": "Type schema.",
       "description": "type",
       "default": "person"
-    }
+    },
+    "bool":{
+          "type": "boolean",
+          "title": ".",
+          "description": ".",
+          "default": true
+     },
+     "int":{
+          "type": "integer",
+          "title": ".",
+          "description": ".",
+          "default": 0
+     }
   },
   "required": [
     "test",
-    "type"
+    "type",
+    "bool",
+    "int"
   ]
 }
