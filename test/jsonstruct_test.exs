@@ -49,8 +49,9 @@ defmodule JsonstructTest do
 
     assert structed.outer1.innerK1== "v2"
   end
-  test "should raise on lack of defaults in schema" do
-    assert false, "not done yet"
+  test "adds nil if no defaults in schema" do
+    structed = %JsstND{}
+    assert structed.outer1.innerK1 ==  nil
   end
   test "fails on bad module name" do
     assert_raise RuntimeError, fn -> 
@@ -59,10 +60,11 @@ defmodule JsonstructTest do
   end
   test "works on directory" do
     J.do_dir("./test/schema")
-    #assert false, "not done yet"
   end
   test "config works for stuff you want to change" do
     assert false, "not done yet"
+    assert false, "handle changing how no defaults are handled, nil or type based like \"\" for empty string"
+    assert false, "should have option to raise on no defaults"
   end
   test "works with remote resolver" do
     assert false, "not done yet"

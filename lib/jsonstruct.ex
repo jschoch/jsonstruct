@@ -23,7 +23,7 @@ defmodule Jsonstruct do
     case File.exists?(dir) do
       true ->
         Enum.each(File.ls!(dir), fn file ->
-          gen(dir <> "/" <> file,"Foo") 
+          gen(dir <> "/" <> file) 
         end)
       false -> raise "./schema not found"
     end
@@ -65,7 +65,8 @@ defmodule Jsonstruct do
           _ ->
             case props[key]["type"] do
               "string" ->
-                "#{key}: \"#{props[key]["default"]}\""
+                #"#{key}: \"#{props[key]["default"]}\""
+                handle_str(key,props[key]["default"])
               "array" ->
                 "#{key}: []"
               "object" ->
@@ -73,13 +74,25 @@ defmodule Jsonstruct do
                 inner = walk(props) |> Enum.join(",")
                 "#{key}: %{#{inner}}"
               "integer" ->
-                "#{key}: #{props[key]["default"]}"
+                handle_int(key,props[key]["default"])
               "boolean" ->
                 "#{key}: #{props[key]["default"]}"
               horror -> raise "unknown prop type: #{}" <> inspect horror, pretty: true
             end
         end
       end) 
+  end
+  def handle_int(key,nil) do
+    "#{key}: nil"
+  end
+  def handle_int(key,i) do
+    "#{key}: #{i}"
+  end
+  def handle_str(key,nil) do
+    "#{key}: nil"
+  end
+  def handle_str(key,i) do
+    "#{key}: \"#{i}\""
   end
   def templ do
     """
