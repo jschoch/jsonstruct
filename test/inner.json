@@ -1,0 +1,7 @@
+{
+  "outer1": {
+    "innerK1": "v2",
+    "innerK2": 3
+  },
+  "outer2": "s value"
+}

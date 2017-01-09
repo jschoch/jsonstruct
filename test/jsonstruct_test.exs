@@ -43,13 +43,19 @@ defmodule JsonstructTest do
     assert ExJsonSchema.Validator.valid?(ref_schema, test_map)
   end
   test "nested objects have correct format.  commas missing" do
-    assert false, "TODO next"
+    structed = File.read!("test/inner.json")
+      |> Poison.decode!
+      |> Inner.new
+
+    assert structed.outer1.innerK1== "v2"
   end
   test "should raise on lack of defaults in schema" do
     assert false, "not done yet"
   end
   test "fails on bad module name" do
-    assert false, "not done yet" 
+    assert_raise RuntimeError, fn -> 
+      J.gen("test/bad_schema/bad_mod_name.json")
+    end
   end
   test "works on directory" do
     J.do_dir("./test/schema")

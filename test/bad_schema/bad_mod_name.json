@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
-  "title": "Jsst Baz",
+  "title": "%%%%%",
   "description": "An explanation about the purpose of this instance.",
   "properties": {
     "name": {

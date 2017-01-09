@@ -1,4 +1,5 @@
 defmodule Mix.Tasks.Jsst do
+  require Logger
   use Mix.Task
   alias Jsonstruct, as: J
   def run(args) do
@@ -12,6 +13,7 @@ defmodule Mix.Tasks.Jsst do
 end
 
 defmodule Jsonstruct do
+  require Logger
   def load_schema(file \\"schema/user.json") do
     File.read!(file)
       |> Poison.decode!
@@ -26,10 +28,19 @@ defmodule Jsonstruct do
       false -> raise "./schema not found"
     end
   end
+  def gen_mod_name(schema) do
+    name = schema.schema["title"] |> String.split(" ") |> Enum.join() |> Inflex.camelize
+    case Regex.match?(~r/^[A-Z]/,name) do
+      true -> 
+        name
+      false -> raise "illegal module name #{name}"
+    end
+  end
   def gen(file,module_name \\nil) do
+    Logger.debug "loading file: #{file} #{module_name}"
     schema = load_schema(file)
-    module_name = if (module_name != nil) do
-      schema.schema["title"]
+    module_name = if (module_name == nil) do
+      gen_mod_name(schema)
     end
     #IO.puts inspect schema, pretty: true
     templ = templ()
@@ -50,7 +61,7 @@ defmodule Jsonstruct do
           true -> 
             ref_map = load_schema props[key]["$ref"]
             #IO.puts inspect ref_map, pretty: true
-            "#{key}: %#{ref_map.schema["title"]}{}"
+            "#{key}: %#{gen_mod_name(ref_map)}{}"
           _ ->
             case props[key]["type"] do
               "string" ->
@@ -59,7 +70,8 @@ defmodule Jsonstruct do
                 "#{key}: []"
               "object" ->
                 props = props[key]["properties"]
-                "#{key}: %{#{walk(props)}}"
+                inner = walk(props) |> Enum.join(",")
+                "#{key}: %{#{inner}}"
               "integer" ->
                 "#{key}: #{props[key]["default"]}"
               "boolean" ->
