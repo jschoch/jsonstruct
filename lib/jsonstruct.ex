@@ -52,35 +52,41 @@ defmodule Jsonstruct do
     s = EEx.eval_string( t,fields: fields,module: module_name)
     File.write!("lib/#{module_name}_jsst_struct.ex",s)
   end
-
+  def walk_key(props = %{"$ref" => ref},key) do
+    ref_map = load_schema ref
+    "#{key}: %#{gen_mod_name(ref_map)}{}"
+  end
+  def walk_key(props = %{"anyOf" => list},key) do
+    #"#{key}: %#{gen_mod_name(ref_map)}{}"
+    "#{key}: nil"
+  end
+  def walk_key(props ,key) do
+    #Logger.debug inspect {props,key}
+    case props[key]["type"] do
+      "string" ->
+        #"#{key}: \"#{props[key]["default"]}\""
+        handle_str(key,props[key]["default"])
+      "array" ->
+        "#{key}: []"
+      "object" ->
+        props = props[key]["properties"]
+        inner = walk(props) |> Enum.join(",")
+        "#{key}: %{#{inner}}"
+      "integer" ->
+        handle_int(key,props[key]["default"])
+      "boolean" ->
+        "#{key}: #{props[key]["default"]}"
+      nil ->
+        walk_key(props[key],key)
+      horror -> raise "unknown prop type: #{key} " <> inspect horror, pretty: true
+    end
+  end
   def walk(props) do
     keys = Map.keys props
     Enum.map(keys,fn(key) ->
         #IO.puts "KEY: " <> inspect props[key], pretty: true
-        case Map.has_key?(props[key], "$ref") do
-          true -> 
-            ref_map = load_schema props[key]["$ref"]
-            #IO.puts inspect ref_map, pretty: true
-            "#{key}: %#{gen_mod_name(ref_map)}{}"
-          _ ->
-            case props[key]["type"] do
-              "string" ->
-                #"#{key}: \"#{props[key]["default"]}\""
-                handle_str(key,props[key]["default"])
-              "array" ->
-                "#{key}: []"
-              "object" ->
-                props = props[key]["properties"]
-                inner = walk(props) |> Enum.join(",")
-                "#{key}: %{#{inner}}"
-              "integer" ->
-                handle_int(key,props[key]["default"])
-              "boolean" ->
-                "#{key}: #{props[key]["default"]}"
-              horror -> raise "unknown prop type: #{}" <> inspect horror, pretty: true
-            end
-        end
-      end) 
+        walk_key(props,key)
+    end) 
   end
   def handle_int(key,nil) do
     "#{key}: nil"
