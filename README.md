@@ -7,7 +7,9 @@ You can also create custom templates for the generator.
 ### Warnings
 
 No idea how to implement pattern properties!
+
 arrays default to []
+
 no circular ref checking, don't do that!
 
 
