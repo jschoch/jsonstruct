@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title": "JsstRefAnyOf",
+  "description": "test ref schema for jsonstruct.",
+  "properties": {
+    "test": {
+      "anyOf": [{"$ref": "test/schema/test.json"}]
+    },
+    "type": {
+      "type": "string",
+      "title": "Type schema.",
+      "description": "type",
+      "default": "person"
+    },
+    "bool":{
+          "type": "boolean",
+          "title": ".",
+          "description": ".",
+          "default": true
+     },
+     "int":{
+          "type": "integer",
+          "title": ".",
+          "description": ".",
+          "default": 0
+     }
+  },
+  "required": [
+    "test",
+    "type",
+    "bool",
+    "int"
+  ]
+}

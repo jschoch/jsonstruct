@@ -7,7 +7,16 @@ defmodule Mix.Tasks.Jsst do
       :test -> 
         raise "what was i going to do with this?>>>..."
       _ ->
-        J.do_dir(List.first args) 
+        arg = List.first args
+        options = do_options()
+        J.do_dir(arg,options) 
+    end
+  end
+  def do_options do
+    case Application.get_env(:jsonstruct,:template) do
+      nil -> [template: J.templ()]
+      x when is_binary(x) -> [template: File.read!(x)]
+      horror -> raise "no template specified, config error"
     end
   end
 end
@@ -19,11 +28,11 @@ defmodule Jsonstruct do
       |> Poison.decode!
       |> ExJsonSchema.Schema.resolve
   end
-  def do_dir(dir \\"./schema") do
+  def do_dir(dir \\"./schema",options) do
     case File.exists?(dir) do
       true ->
         Enum.each(File.ls!(dir), fn file ->
-          gen(dir <> "/" <> file) 
+          gen(dir <> "/" <> file, options) 
         end)
       false -> raise "./schema not found"
     end
@@ -36,14 +45,14 @@ defmodule Jsonstruct do
       false -> raise "illegal module name #{name}"
     end
   end
-  def gen(file,module_name \\nil) do
+  def gen(file,module_name \\nil,options) do
     Logger.debug "loading file: #{file} #{module_name}"
     schema = load_schema(file)
     module_name = if (module_name == nil) do
       gen_mod_name(schema)
     end
     #IO.puts inspect schema, pretty: true
-    templ = templ()
+    templ = options[:template]
     props = schema.schema["properties"] 
     #keys = Map.keys props
     fields = walk(props)

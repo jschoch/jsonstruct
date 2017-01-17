@@ -49,32 +49,49 @@ defmodule JsonstructTest do
 
     assert structed.outer1.innerK1== "v2"
   end
+
+  @tag :todo
+  test "ignores '.' files like vim temp files" do
+    assert false, "not done yet"
+  end
   test "adds nil if no defaults in schema" do
     structed = %JsstND{}
     assert structed.outer1.innerK1 ==  nil
   end
   test "fails on bad module name" do
+    options = [template: J.templ()]
     assert_raise RuntimeError, fn -> 
-      J.gen("test/bad_schema/bad_mod_name.json")
+      J.gen("test/bad_schema/bad_mod_name.json",options)
     end
   end
   test "works on directory" do
-    J.do_dir("./test/schema")
+    options = [template: J.templ()]
+    J.do_dir("./test/schema",options)
   end
+
+  @tag :todo
   test "config works for stuff you want to change" do
     assert false, "not done yet"
     assert false, "handle changing how no defaults are handled, nil or type based like \"\" for empty string"
     assert false, "should have option to raise on no defaults"
   end
+
+  @tag :todo
   test "works with remote resolver" do
     assert false, "not done yet"
   end
+
+  @tag :todo
   test "interactive overwrite confirmation if modified outside" do
     assert false, "perhaps a .lock file to track when a file is changed by hand"
   end
+
+  @tag :todo
   test "ensure all types are tested and warn/error correctly" do
     assert false, "not done yet"
   end
+
+  @tag :todo
   test "circular ref?" do
     assert false, "TODO: seems bad if there is a circular ref\n not done yet"
   end
