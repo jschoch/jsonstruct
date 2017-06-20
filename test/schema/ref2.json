@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
-  "title": "JsstRef",
+  "title": "JsstRef2",
   "description": "test ref schema for jsonstruct.",
   "properties": {
     "test_example_com": {
