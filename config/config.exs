@@ -30,4 +30,4 @@ use Mix.Config
 #     import_config "#{Mix.env}.exs"
 config :ex_json_schema,
   :remote_schema_resolver,
-  fn url -> File.read!(url) |> Poison.decode! end
+  {Jsonstruct,:parse_file}

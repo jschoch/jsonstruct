@@ -23,11 +23,27 @@ end
 
 defmodule Jsonstruct do
   require Logger
-  def load_schema(file \\"schema/user.json") do
-    File.read!(file)
-      |> Poison.decode!
+  def load_schema(uri) do
+    parse_file(uri)
       |> ExJsonSchema.Schema.resolve
   end
+
+  @doc "this looks for example.com and uses it as a signal to grab a file since i'm too lazy to figure out why most libs dont' use file uri correctly...."
+  def parse_file_name(<< "http://example.com" :: binary, stuff :: binary >>) do
+    "./" <> stuff 
+  end
+  def parse_file_name(file) do
+    Logger.debug "missed: " <> inspect file
+    file
+  end
+
+  def parse_file(uri) do
+    Logger.debug "parse_file: " <> inspect uri
+    file_name = parse_file_name(uri)
+    File.read!(file_name) 
+      |> Poison.decode!
+  end
+
   def do_dir(dir \\"./schema",options) do
     case File.exists?(dir) do
       true ->
@@ -46,7 +62,7 @@ defmodule Jsonstruct do
     end
   end
   def gen(file,module_name \\nil,options) do
-    Logger.debug "loading file: #{file} #{module_name}"
+    Logger.debug "gen loading file: #{file} #{module_name}"
     schema = load_schema(file)
     module_name = if (module_name == nil) do
       gen_mod_name(schema)
@@ -60,6 +76,11 @@ defmodule Jsonstruct do
     t = templ
     s = EEx.eval_string( t,fields: fields,module: module_name)
     File.write!("lib/#{module_name}_jsst_struct.ex",s)
+  end
+  def walk_key(props = %{"$ref" => list},key) when is_list(list) do
+    [ref] = list
+    ref_map = load_schema ref
+    "#{key}: %#{gen_mod_name(ref_map)}{}"
   end
   def walk_key(props = %{"$ref" => ref},key) do
     ref_map = load_schema ref
