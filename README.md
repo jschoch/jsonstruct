@@ -2,6 +2,8 @@
 
 Use this to derive structs from json schema.  The idea is to limit the number of places data structures are defined.  The initial use case for this is for elixir-lang elm-lang interop where client and server can derive structures from a single set of json schemas.
 
+This currently works with dragonwasrobot/json-schema-to-elm which compiles your schemas to elm types.  When also paired with ex_json_schema you get a single type definition between elixir and elm
+
 You can also create custom templates for the generator.
 
 ### Warnings
@@ -16,6 +18,12 @@ no circular ref checking, don't do that!
 ## This is an expiriment, contributors, comments, ideas welcome....
 
 ### Getting Started
+
+## tests
+
+run `mix jsst test/schema` to ensure the test structs are created, a bit of chicken or egg.  you can also just run the tests twice after the initial clone/fork
+
+## plain old usage
 
 1. install in your mix.exs 
 2. create a dir `./schema`
