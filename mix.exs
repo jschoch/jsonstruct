@@ -51,8 +51,7 @@ defmodule Jsonstruct.Mixfile do
   defp deps do
     [
       {:poison, "~> 3.0"},
-      {:ex_json_schema, "~> 0.5.2"},
-      #{:exconstructor, "~> 1.0.2"}
+      {:ex_json_schema, "~> 0.6.2"},
       { :inflex, "~> 1.7.0" },
       {:exconstructor, git:  "https://github.com/SLOBYYYY/exconstructor"}
     ]
