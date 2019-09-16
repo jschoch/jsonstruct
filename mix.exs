@@ -7,7 +7,7 @@ defmodule Jsonstruct.Mixfile do
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     aliases: aliases,
+     aliases: aliases(),
      deps: deps()]
   end
 
@@ -43,9 +43,9 @@ defmodule Jsonstruct.Mixfile do
   defp build_releases(_) do
     Mix.Tasks.Compile.run([])
     Mix.Tasks.Archive.Build.run([])
-    Mix.Tasks.Archive.Build.run(["--output=#{app}.ez"])
-    File.rename("#{app}.ez", "./archives/#{app}.ez")
-    File.rename("#{app}-#{version}.ez", "./archives/#{app}-#{version}.ez")
+    Mix.Tasks.Archive.Build.run(["--output=#{app()}.ez"])
+    File.rename("#{app()}.ez", "./archives/#{app()}.ez")
+    File.rename("#{app()}-#{version()}.ez", "./archives/#{app()}-#{version()}.ez")
   end
 
   defp deps do
